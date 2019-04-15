@@ -26,9 +26,18 @@ const fragments = {
     ]
 }
 
-//Send fragments to /api/uvt endpoint or process here?
-const submitVideoData = data => {
-    console.log(data)
+//Send fragments to /uvt api endpoint
+const submitVideoData = (data) => {
+    $.ajax({
+        url: 'http://localhost:8080/uvt',
+        headers: {
+            'content-type': 'application/json'
+        },
+        data: JSON.stringify(data),
+        type: 'POST',
+        success: (res) => console.log(`success ${res}`),
+        error: (res) => console.log(`error is ${res}`) 
+    });
 }
 
 
@@ -37,7 +46,6 @@ const submitVideoData = data => {
  const listenForProcessButton = () => {
         $('#process-button').on('click', event => {
             event.preventDefault();
-
             submitVideoData(fragments);
         })
  }

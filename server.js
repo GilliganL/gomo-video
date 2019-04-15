@@ -3,18 +3,20 @@
 //import required modules
 const express = require('express');
 const  bodyParser = require('body-parser');
-
 const jsonParser = bodyParser.json();
-
-//initialize a new express app
-const app = express();
 
 //import config values
 const { PORT } = require('./config');
 
-//Endpoint that accepts fragment data and returns uvt
-app.post('/uvt', jsonParser, async (req, res) => {
+//initialize a new express app
+const app = express();
 
+app.use(express.static('public'));
+
+//Endpoint that accepts fragment data and returns uvt
+app.post('/uvt', jsonParser, (req, res) => {
+
+    console.log(req.body);
     //validate data
 
     //process videos 
