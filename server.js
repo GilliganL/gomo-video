@@ -79,17 +79,21 @@ app.post('/uvt', jsonParser, (req, res) => {
         res.status(422).json({ error: 'No video data received' });
     }
 
-    const videos = req.body.videos;
-    const results = []
-    //process videos
-    videos.forEach(video => {
-        const uvt = calculateUVT(video);
-        results.push(uvt);
-    });
+    try {
+        const videos = req.body.videos;
+        const results = []
+        //process videos
+        videos.forEach(video => {
+            const uvt = calculateUVT(video);
+            results.push(uvt);
+        });
+    
+        //return uvt data
+        res.status(200).send({ viewData: results });
 
-    //return uvt data
-    res.status(200).send({ viewData: results });
-
+    } catch {
+        res.status(500).json({ error: 'Internal server error' });
+    }
 })
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
