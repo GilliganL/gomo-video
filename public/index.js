@@ -35,12 +35,10 @@ const submitVideoData = (data) => {
         },
         data: JSON.stringify(data),
         type: 'POST',
-        success: (res) => console.log(`success ${res}`),
-        error: (res) => console.log(`error is ${res}`) 
+        success: (res) => console.log(`success ${res.body}`),
+        error: (res) => console.log(`error is ${res.body}`) 
     });
 }
-
-
 
 //Listen for user click on Process Button
  const listenForProcessButton = () => {
