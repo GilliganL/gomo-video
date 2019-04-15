@@ -13,7 +13,13 @@ const app = express();
 const { PORT } = require('./config');
 
 //Endpoint that accepts fragment data and returns uvt
-app.post('/uvt', jsonParser, (req, res) => {
+app.post('/uvt', jsonParser, async (req, res) => {
+
+    //validate data
+
+    //process videos 
+
+    //return uvt data
 
 })
 
