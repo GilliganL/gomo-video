@@ -37,25 +37,38 @@ const uniqueRanges = fragments => {
 
 //Calculate UVT and unique ranges
 const calculateUVT = video => {
-    let uvt = 0;
-    const { fragments } = video;
+    let uvt = 0
+    const { fragments, id } = video;
+
+    //check for videos with no watched fragments
+    if (!fragments) {
+        return {
+            id,
+            uvt
+        }
+    }
 
     //convert from seconds to milliseconds
     fragments.forEach(fragment => {
         fragment.start = fragment.start * 1000;
         fragment.stop = fragment.stop * 1000;
     })
+
     //sort ranges by starting time
     fragments.sort((a, b) => a.start - b.start);
 
+    //unique ranges processing
     const ranges = uniqueRanges(fragments);
 
-    console.log(fragments)
-    console.log(ranges)
+    ranges.forEach(range => {
+        uvt += (range.stop - range.start);
+    });
 
-
-
-
+    return {
+        id,
+        uvt,
+        ranges
+    }
 }
 
 //Endpoint that accepts fragment data and returns uvt
@@ -75,6 +88,7 @@ app.post('/uvt', jsonParser, (req, res) => {
     });
 
     //return uvt data
+    res.status(200).send({ viewData: results });
 
 })
 
