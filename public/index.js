@@ -1,6 +1,6 @@
 //Fragment Data presented in JSON
-//The currentTime attribute of videos reports time in seconds, so they are presented here in seconds
-//Since I am not adding a database for the challenge the complete fragment data is being sent at once separated by video
+//The currentTime attribute of videos reports time in seconds, so they are presented here in seconds to be converted to ms
+//Since I am not adding a database for the challenge the complete fragment data is being sent at once broken down by video
 
 const fragments = {
     "videos": [
@@ -26,6 +26,28 @@ const fragments = {
     ]
 }
 
+//Display video data
+const displayData = data => {
+    $('#data').empty();
+
+    for (let item of data.viewData) {
+        let ranges = '';
+        item.ranges.forEach(item => {
+            ranges = ranges + `<div class="range">
+                <p>Start time: ${item.start} Stop time: ${item.stop}
+            </div>`
+        });
+        console.log(ranges)
+        $('#data').append(
+            `<div class="video-data" id="video${item.id}">
+                <h3>Video: ${item.id}</h3>
+                <p class="uvt">UVT: ${item.uvt}</p>
+                ${ranges}
+            </div>`
+        );
+    }
+}
+
 //Send fragments to /uvt api endpoint
 const submitVideoData = (data) => {
     $.ajax({
@@ -35,7 +57,7 @@ const submitVideoData = (data) => {
         },
         data: JSON.stringify(data),
         type: 'POST',
-        success: (res) => console.log(`success ${res.body}`),
+        success: (res) => displayData(res),
         error: (res) => console.log(`error is ${res.body}`) 
     });
 }
